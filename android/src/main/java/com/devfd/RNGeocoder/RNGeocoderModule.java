@@ -45,15 +45,15 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void reverseGeocodeLocation(ReadableMap position, Callback errorCallback, Callback successCallback) {
+  public void reverseGeocodeLocation(ReadableMap position, Callback callback) {
     Geocoder geocoder = new Geocoder(getReactApplicationContext());
 
     try {
       List<Address> addresses = geocoder.getFromLocation(position.getDouble("latitude"), position.getDouble("longitude"), 20);
-      successCallback.invoke(transform(addresses));
+      callback.invoke(null, transform(addresses));
     }
     catch (IOException e) {
-      errorCallback.invoke(e.getMessage());
+      callback.invoke(e.getMessage(), null);
     }
 
   }
